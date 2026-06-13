@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>利益相关者参与基金会治理 — 知识卡片（含笔记）</title>
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;600;700;800&display=swap");
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f0f1a;--card-bg:#1a1a2e;--card-border:#2a2a4a;--text:#e8e8f0;--text-dim:#8888aa;--accent1:#6c63ff;--accent2:#00d4aa;--accent3:#ff6b6b;--accent4:#ffd93d;--accent5:#6bcbff;--accent6:#ff8fe8;--accent7:#a8e6cf;--shadow:0 8px 32px rgba(0,0,0,0.4)}
+body{font-family:"Noto Sans SC","Inter",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+.header{text-align:center;padding:60px 20px 40px;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);position:relative;overflow:hidden}
+.header::before{content:"";position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 50%,rgba(108,99,255,0.08) 0%,transparent 50%),radial-gradient(circle at 70% 50%,rgba(0,212,170,0.08) 0%,transparent 50%);animation:headerGlow 8s ease-in-out infinite alternate}
+@keyframes headerGlow{0%{transform:translate(0,0) rotate(0deg)}100%{transform:translate(-20px,-20px) rotate(3deg)}}
+.header h1{font-size:2.4em;font-weight:800;background:linear-gradient(135deg,#6c63ff,#00d4aa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;position:relative;letter-spacing:2px}
+.header .subtitle{color:var(--text-dim);font-size:1.1em;margin-top:12px;position:relative;font-weight:300}
+.header .stats{display:flex;justify-content:center;gap:40px;margin-top:30px;position:relative}
+.header .stat-item{text-align:center}
+.header .stat-item .num{font-size:2em;font-weight:700;color:var(--accent2)}
+.header .stat-item .label{font-size:0.85em;color:var(--text-dim);margin-top:4px}
+.controls{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;padding:24px 20px;background:rgba(26,26,46,0.8);backdrop-filter:blur(10px);position:sticky;top:0;z-index:100;border-bottom:1px solid var(--card-border)}
+.filter-btn{padding:8px 20px;border:1px solid var(--card-border);border-radius:20px;background:transparent;color:var(--text-dim);cursor:pointer;font-size:0.85em;font-family:inherit;transition:all 0.3s}
+.filter-btn:hover{border-color:var(--accent1);color:var(--text)}
+.filter-btn.active{background:var(--accent1);border-color:var(--accent1);color:#fff}
+.section-nav{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;padding:12px 20px;background:rgba(26,26,46,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--card-border);position:sticky;top:76px;z-index:98;box-shadow:0 2px 12px rgba(0,0,0,0.15)}
+.section-btn{padding:10px 22px;border:1px solid var(--card-border);border-radius:12px;background:transparent;color:var(--text-dim);cursor:pointer;font-size:0.88em;font-family:inherit;transition:all 0.3s;white-space:nowrap}
+.section-btn:hover{border-color:var(--accent1);color:var(--text);background:rgba(108,99,255,0.08)}
+.section-btn.active{background:linear-gradient(135deg,rgba(108,99,255,0.25),rgba(0,212,170,0.15));border-color:var(--accent1);color:#fff;box-shadow:0 0 20px rgba(108,99,255,0.15)}
+.section-btn .badge{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:8px;font-size:0.75em;background:rgba(255,255,255,0.08);color:var(--text-dim)}
+.section-btn.active .badge{background:rgba(108,99,255,0.3);color:#fff}
+.collapse-btn{display:inline-flex;align-items:center;gap:6px;margin-left:14px;padding:5px 14px;border:1px solid var(--card-border);border-radius:8px;background:transparent;color:var(--accent5);cursor:pointer;font-size:0.75em;font-family:inherit;transition:all 0.3s;white-space:nowrap}
+.collapse-btn:hover{background:rgba(107,203,255,0.1);border-color:var(--accent5)}
+.timeline-wrap{overflow:hidden;position:relative;transition:max-height 0.6s cubic-bezier(0.4,0,0.2,1);max-height:none}
+.timeline-wrap.collapsed{max-height:420px}
+.timeline-wrap .timeline-fade{position:absolute;bottom:0;left:0;right:0;height:80px;background:linear-gradient(transparent,var(--bg));pointer-events:none;opacity:0;transition:opacity 0.4s}
+.timeline-wrap.collapsed .timeline-fade{opacity:1}
+.timeline-section{position:relative}
+.scroll-top{position:fixed;bottom:30px;right:30px;width:44px;height:44px;border-radius:50%;border:1px solid var(--card-border);background:var(--card-bg);color:var(--accent1);cursor:pointer;font-size:1.2em;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(20px);transition:all 0.3s;z-index:99;box-shadow:var(--shadow)}
+.scroll-top.show{opacity:1;transform:translateY(0)}
+.scroll-top:hover{background:var(--accent1);color:#fff}
+html{scroll-behavior:smooth}
+.timeline-section{padding:40px 20px;max-width:1200px;margin:0 auto}
+.timeline-section h2{font-size:1.4em;font-weight:600;margin-bottom:24px;color:var(--text);display:flex;align-items:center;gap:10px}
+.timeline-section h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--card-border),transparent)}
+.timeline{position:relative;padding:20px 0}
+.timeline::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--accent1),var(--accent2),var(--accent3),var(--accent4));transform:translateX(-50%);border-radius:2px}
+.timeline-item{display:flex;align-items:center;margin-bottom:16px;position:relative;cursor:pointer;transition:transform 0.3s}
+.timeline-item:hover{transform:scale(1.02)}
+.timeline-item:nth-child(odd){flex-direction:row}
+.timeline-item:nth-child(even){flex-direction:row-reverse}
+.timeline-item .year-badge{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9em;flex-shrink:0;z-index:2;border:3px solid var(--card-border);background:var(--card-bg);color:var(--text);transition:all 0.3s}
+.timeline-item:hover .year-badge{border-color:var(--accent1);box-shadow:0 0 20px rgba(108,99,255,0.3)}
+.timeline-item .tl-content{flex:1;padding:12px 20px;background:var(--card-bg);border:1px solid var(--card-border);border-radius:12px;margin:0 20px;transition:all 0.3s}
+.timeline-item:hover .tl-content{border-color:var(--accent1);box-shadow:0 4px 20px rgba(108,99,255,0.15)}
+.timeline-item .tl-content .tl-title{font-weight:600;font-size:0.95em;color:var(--text)}
+.timeline-item .tl-content .tl-author{font-size:0.8em;color:var(--text-dim);margin-top:4px}
+.timeline-item .tl-content .tl-tag{display:inline-block;padding:2px 10px;border-radius:10px;font-size:0.7em;margin-top:6px;font-weight:500}
+.cards-section{padding:40px 20px 60px;max-width:1400px;margin:0 auto}
+.cards-section h2{font-size:1.4em;font-weight:600;margin-bottom:24px;color:var(--text);display:flex;align-items:center;gap:10px}
+.cards-section h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--card-border),transparent)}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:24px}
+.card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:24px;transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent1),var(--accent2));opacity:0;transition:opacity 0.3s}
+.card:hover::before{opacity:1}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:rgba(108,99,255,0.3)}
+.card .theme-tag{display:inline-block;padding:3px 12px;border-radius:12px;font-size:0.7em;font-weight:600;margin-bottom:12px;letter-spacing:0.5px}
+.card .card-title{font-size:1em;font-weight:600;line-height:1.5;margin-bottom:8px;color:var(--text)}
+.card .card-authors{font-size:0.82em;color:var(--text-dim);margin-bottom:6px;line-height:1.4}
+.card .card-journal{font-size:0.78em;color:var(--accent5);font-style:italic;margin-bottom:4px}
+.card .card-year{font-size:0.78em;color:var(--accent4);font-weight:500}
+.card .card-doi{font-size:0.72em;color:var(--text-dim);margin-top:8px;word-break:break-all}
+.card .card-doi a{color:var(--accent5);text-decoration:none}
+.card .card-doi a:hover{text-decoration:underline}
+.card .card-pdf{display:inline-flex;align-items:center;gap:4px;margin-top:10px;padding:4px 12px;border-radius:8px;font-size:0.75em;font-weight:500}
+.card .card-pdf.available{background:rgba(0,212,170,0.15);color:var(--accent2)}
+.card .card-pdf.unavailable{background:rgba(255,107,107,0.15);color:var(--accent3)}
+.theme-core{background:rgba(108,99,255,0.15);color:#8b83ff}
+.theme-governance{background:rgba(0,212,170,0.15);color:var(--accent2)}
+.theme-participation{background:rgba(107,203,255,0.15);color:var(--accent5)}
+.theme-accountability{background:rgba(255,107,107,0.15);color:var(--accent3)}
+.theme-china{background:rgba(255,217,61,0.15);color:var(--accent4)}
+.theme-methodology{background:rgba(168,230,207,0.15);color:var(--accent7)}
+.theme-report{background:rgba(255,143,232,0.15);color:var(--accent6)}
+.card.theme-core{border-left:3px solid var(--accent1)}
+.card.theme-governance{border-left:3px solid var(--accent2)}
+.card.theme-participation{border-left:3px solid var(--accent5)}
+.card.theme-accountability{border-left:3px solid var(--accent3)}
+.card.theme-china{border-left:3px solid var(--accent4)}
+.card.theme-methodology{border-left:3px solid var(--accent7)}
+.card.theme-report{border-left:3px solid var(--accent6)}
+.theme-map-section{padding:40px 20px;max-width:1200px;margin:0 auto}
+.theme-map-section h2{font-size:1.4em;font-weight:600;margin-bottom:24px;color:var(--text);display:flex;align-items:center;gap:10px}
+.theme-map-section h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--card-border),transparent)}
+.theme-map{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.theme-node{background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:20px;text-align:center;transition:all 0.3s;cursor:default}
+.theme-node:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.theme-node .theme-icon{font-size:2em;margin-bottom:8px}
+.theme-node .theme-name{font-weight:600;font-size:0.95em}
+.theme-node .theme-count{font-size:0.8em;color:var(--text-dim);margin-top:4px}
+.theme-node .theme-papers{font-size:0.75em;color:var(--text-dim);margin-top:8px;line-height:1.5}
+.footer{text-align:center;padding:30px 20px;color:var(--text-dim);font-size:0.8em;border-top:1px solid var(--card-border)}
+.note-section{margin-top:14px;border-top:1px solid var(--card-border);padding-top:12px}
+.note-toggle{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--card-border);border-radius:8px;background:transparent;color:var(--accent5);cursor:pointer;font-size:0.78em;font-family:inherit;transition:all 0.3s}
+.note-toggle:hover{background:rgba(107,203,255,0.1);border-color:var(--accent5)}
+.note-toggle .arrow{display:inline-block;transition:transform 0.3s}
+.note-toggle.open .arrow{transform:rotate(90deg)}
+.note-content{display:none;margin-top:12px;padding:16px;background:rgba(15,15,26,0.6);border-radius:12px;border:1px solid rgba(107,203,255,0.15);font-size:0.82em;line-height:1.7;color:var(--text-dim);max-height:0;overflow:hidden;transition:max-height 0.5s ease,padding 0.3s ease,opacity 0.3s ease;opacity:0}
+.note-content.open{display:block;max-height:5000px;padding:16px;opacity:1}
+.note-content h3{color:var(--accent5);font-size:1em;font-weight:600;margin:14px 0 8px;padding-bottom:4px;border-bottom:1px solid rgba(107,203,255,0.1)}
+.note-content h3:first-child{margin-top:0}
+.note-content h4{color:var(--accent2);font-size:0.92em;font-weight:600;margin:10px 0 6px}
+.note-content p{margin:6px 0}
+.note-content ul,.note-content ol{margin:6px 0 6px 18px}
+.note-content li{margin:4px 0}
+.note-content blockquote{margin:8px 0;padding:8px 14px;border-left:3px solid var(--accent4);background:rgba(255,217,61,0.05);border-radius:0 6px 6px 0;color:var(--text);font-style:italic}
+.note-content strong{color:var(--text)}
+.note-content em{color:var(--accent4)}
+.note-content code{background:rgba(108,99,255,0.15);padding:1px 5px;border-radius:4px;font-size:0.9em;color:var(--accent1)}
+.note-badge{display:inline-flex;align-items:center;gap:4px;margin-left:8px;padding:2px 8px;border-radius:6px;font-size:0.7em;background:rgba(107,203,255,0.12);color:var(--accent5);font-weight:500}
+.note-content a{color:var(--accent5);text-decoration:none}
+.note-content a:hover{text-decoration:underline}
+.card-title .en-title{display:block;font-size:0.78em;font-weight:400;color:var(--accent5);margin-top:4px;line-height:1.4}
+.cn-sub{display:block;font-size:0.85em;font-weight:400;color:var(--accent5);margin-top:2px}
+.theme-papers .en-title{font-size:0.85em}
+.theme-papers .cn-sub{font-size:0.9em;color:var(--text);font-weight:500}
+@media(max-width:768px){
+.header h1{font-size:1.6em}
+.header .stats{gap:20px}
+.header .stat-item .num{font-size:1.5em}
+.timeline::before{left:30px}
+.timeline-item,.timeline-item:nth-child(even){flex-direction:row!important}
+.timeline-item .year-badge{width:44px;height:44px;font-size:0.75em}
+.timeline-item .tl-content{margin:0 12px;padding:10px 14px}
+.cards-grid{grid-template-columns:1fr}
+.theme-map{grid-template-columns:repeat(2,1fr)}
+}
+.fade-in{opacity:0;transform:translateY(20px);animation:fadeIn 0.6s ease forwards}
+@keyframes fadeIn{to{opacity:1;transform:translateY(0)}}
+.note-tip{font-size:0.75em;color:var(--text-dim);margin-top:6px;font-style:italic}
+.review-section{padding:40px 20px 60px;max-width:1200px;margin:0 auto}
+.review-section h2{font-size:1.4em;font-weight:600;margin-bottom:8px;color:var(--text);display:flex;align-items:center;gap:10px}
+.review-section h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--card-border),transparent)}
+.review-section h3{font-size:1.15em;font-weight:600;color:var(--accent5);margin:24px 0 12px;padding-bottom:6px;border-bottom:1px solid rgba(107,203,255,0.15)}
+.review-section h4{font-size:0.95em;font-weight:600;color:var(--accent2);margin:16px 0 8px}
+.review-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:16px;padding:28px;margin-bottom:24px}
+.review-card:hover{border-color:rgba(107,203,255,0.3);box-shadow:var(--shadow)}
+.review-card p,.review-card li{font-size:0.88em;line-height:1.7;color:var(--text-dim)}
+.review-card ul,.review-card ol{margin:6px 0 6px 20px}
+.review-card li{margin:4px 0}
+.proposition{background:rgba(108,99,255,0.08);border-left:3px solid var(--accent1);padding:10px 16px;margin:8px 0;border-radius:0 8px 8px 0;font-size:0.88em;line-height:1.6;color:var(--text)}
+.review-table{width:100%;border-collapse:collapse;margin:10px 0 16px;font-size:0.85em;border-radius:8px;overflow:hidden}
+.review-table th{background:rgba(108,99,255,0.2);color:var(--accent5);padding:8px 12px;text-align:left;font-weight:600}
+.review-table td{padding:7px 12px;border-bottom:1px solid var(--card-border);color:var(--text-dim)}
+.review-table tr:hover td{background:rgba(108,99,255,0.04)}
+.search-query{background:rgba(15,15,26,0.8);border:1px solid var(--card-border);border-radius:8px;padding:14px 18px;font-family:Consolas,monospace;font-size:0.82em;line-height:1.6;color:var(--accent4);margin:8px 0 16px;overflow-x:auto;white-space:pre-wrap}
+.phase-list{display:flex;flex-direction:column;gap:8px;margin:10px 0 16px}
+.phase-item{display:flex;align-items:flex-start;gap:12px;padding:10px 14px;background:rgba(15,15,26,0.5);border-radius:8px;border:1px solid var(--card-border);font-size:0.85em;line-height:1.5;color:var(--text-dim)}
+.phase-item:hover{border-color:rgba(0,212,170,0.3)}
+.phase-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:rgba(0,212,170,0.15);color:var(--accent2);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85em}
+</style></head><body>
+<div class="header">
+<h1>📚 利益相关者参与基金会治理</h1>
+<p class="subtitle">系统文献综述 · 知识卡片可视化 · 含完整笔记</p>
+<div class="stats">
+<div class="stat-item"><div class="num">15</div><div class="label">文献总数</div></div>
+<div class="stat-item"><div class="num">1969–2024</div><div class="label">时间跨度</div></div>
+<div class="stat-item"><div class="num">7</div><div class="label">主题分类</div></div>
+<div class="stat-item"><div class="num">15</div><div class="label">已获取 PDF</div></div>
+</div></div>
+<div class="controls" id="filters">
+<button class="filter-btn active" data-filter="all">全部文献</button>
+<button class="filter-btn" data-filter="core">📐 核心理论</button>
+<button class="filter-btn" data-filter="governance">🏛️ 治理结构</button>
+<button class="filter-btn" data-filter="participation">🤝 参与机制</button>
+<button class="filter-btn" data-filter="accountability">🔍 问责与危机</button>
+<button class="filter-btn" data-filter="china">🇨🇳 中国情境</button>
+<button class="filter-btn" data-filter="methodology">📋 方法论</button>
+<button class="filter-btn" data-filter="report">📊 行业报告</button>
+</div>
+<div class="section-nav" id="sectionNav">
+	<button class="section-btn active" data-scrollto="all"><span>📋 全部文献</span> <span class="badge">15</span></button>
+	<button class="section-btn" data-scrollto="themeMap"><span>🗺️ 主题地图</span></button>
+	<button class="section-btn" data-scrollto="timeline"><span>📅 时间线</span></button>
+	<button class="section-btn" data-scrollto="cards"><span>📃 知识卡片</span></button>
+	<button class="section-btn" data-scrollto="review"><span>📝 文献综述与初步分析</span></button>
+	<button class="section-btn" data-scrollto="search"><span>🔍 文献检索过程</span></button>
+</div>
+<div class="theme-map-section" id="themeMap">
+<h2>🗺️ 主题地图</h2>
+<div class="theme-map">
+<div class="theme-node fade-in" style="border-left:3px solid var(--accent1)">
+<div class="theme-icon">📐</div>
+<div class="theme-name">核心理论</div>
+<div class="theme-count">1 篇文献</div>
+<div class="theme-papers">战略管理：利益相关者方法<br><span class='en-title'>Strategic Management: A Stakeholder Approach</span></div>
+</div>
+<div class="theme-node fade-in" style="border-left:3px solid var(--accent2)">
+<div class="theme-icon">🏛️</div>
+<div class="theme-name">治理结构</div>
+<div class="theme-count">3 篇文献</div>
+<div class="theme-papers">非营利董事会：专业知识的熔炉还是地方身份的象征？<br><span class='en-title'>Nonprofit Boards: Crucibles of Expertise or Symbols of Local Identities?</span><br>探索非营利组织的战略与董事会结构<br><span class='en-title'>Exploring Strategy and Board Structure in Nonprofit Organizations</span><br>非营利组织的有效治理：基于文献的多重利益相关者方法<br><span class='en-title'>Effective Governance in Nonprofit Organizations: A Literature Based Multiple Stakeholder Approach</span></div>
+</div>
+<div class="theme-node fade-in" style="border-left:3px solid var(--accent5)">
+<div class="theme-icon">🤝</div>
+<div class="theme-name">参与机制</div>
+<div class="theme-count">3 篇文献</div>
+<div class="theme-papers">公民参与的阶梯<br><span class='en-title'>A Ladder of Citizen Participation</span><br>当政府成为主要慈善家：公共资金对非营利组织治理模式的影响<br><span class='en-title'>When Government Becomes the Principal Philanthropist: The Effects of Public Funding on Patterns of Nonprofit Governance</span><br>家长式还是参与式治理？——考察非营利组织中的客户参与机会<br><span class='en-title'>Paternalistic or Participatory Governance? Examining Opportunities for Client Participation in Nonprofit Organizations</span></div>
+</div>
+<div class="theme-node fade-in" style="border-left:3px solid var(--accent3)">
+<div class="theme-icon">🔍</div>
+<div class="theme-name">问责与危机</div>
+<div class="theme-count">2 篇文献</div>
+<div class="theme-papers">非常公开的丑闻：非政府组织陷入困境的方式与原因分析<br><span class='en-title'>Very Public Scandals: An Analysis of How and Why Nongovernmental Organizations Get in Trouble</span><br>公信力的丧失：非政府组织不当行为的模式<br><span class='en-title'>A Loss of Credibility: Patterns of Wrongdoing Among Nongovernmental Organizations</span></div>
+</div>
+<div class="theme-node fade-in" style="border-left:3px solid var(--accent4)">
+<div class="theme-icon">🇨🇳</div>
+<div class="theme-name">中国情境</div>
+<div class="theme-count">1 篇文献</div>
+<div class="theme-papers">中国社会组织成长条件的再思考——一个总体性理论视角</div>
+</div>
+<div class="theme-node fade-in" style="border-left:3px solid var(--accent7)">
+<div class="theme-icon">📋</div>
+<div class="theme-name">方法论</div>
+<div class="theme-count">2 篇文献</div>
+<div class="theme-papers">AACODS检查表<br><span class='en-title'>AACODS Checklist</span><br>PRISMA 2020声明：系统综述报告指南更新版<br><span class='en-title'>The PRISMA 2020 Statement: An Updated Guideline for Reporting Systematic Reviews</span></div>
+</div>
+<div class="theme-node fade-in" style="border-left:3px solid var(--accent6)">
+<div class="theme-icon">📊</div>
+<div class="theme-name">行业报告</div>
+<div class="theme-count">3 篇文献</div>
+<div class="theme-papers">以意图引领：BoardSource非营利董事会实践指数<br><span class='en-title'>Leading with Intent: BoardSource Index of Nonprofit Board Practices</span><br>2024年英国公民社会年鉴<br><span class='en-title'>UK Civil Society Almanac 2024</span><br>中国基金会发展报告</div>
+</div>
+</div></div>
+<div class="timeline-section" id="timeline">
+<h2>📅 时间线 <button class="collapse-btn" onclick="toggleTimeline()">📌 折叠时间线</button></h2>
+<div class="timeline-wrap" id="timelineWrap">
+<div class="timeline-fade"></div>
+<div class="timeline">
+<div class="timeline-item" data-category="participation">
+<div class="year-badge">1969</div>
+<div class="tl-content">
+<div class="tl-title">🤝 A Ladder of Citizen Participation<br><span class='cn-sub'>公民参与的阶梯</span></div>
+<div class="tl-author">Sherry R. Arnstein</div>
+<span class="tl-tag theme-participation">🤝 参与机制</span>
+</div></div>
+<div class="timeline-item" data-category="core">
+<div class="year-badge">1984</div>
+<div class="tl-content">
+<div class="tl-title">📐 Strategic Management: A Stakeholder Approach<br><span class='cn-sub'>战略管理：利益相关者方法</span></div>
+<div class="tl-author">R. Edward Freeman</div>
+<span class="tl-tag theme-core">📐 核心理论</span>
+</div></div>
+<div class="timeline-item" data-category="governance">
+<div class="year-badge">1996</div>
+<div class="tl-content">
+<div class="tl-title">🏛️ Nonprofit Boards: Crucibles of Expertise or Symbols of Local Identities?<br><span class='cn-sub'>非营利董事会：专业知识的熔炉还是地方身份的象征？</span></div>
+<div class="tl-author">Rikki Abzug</div>
+<span class="tl-tag theme-governance">🏛️ 治理结构</span>
+</div></div>
+<div class="timeline-item" data-category="accountability">
+<div class="year-badge">2001</div>
+<div class="tl-content">
+<div class="tl-title">🔍 Very Public Scandals: An Analysis of How and Why Nongovernmental Organizations Get in Trouble<br><span class='cn-sub'>非常公开的丑闻：非政府组织陷入困境的方式与原因分析</span></div>
+<div class="tl-author">Margaret Gibelman, Sheldon R. Gelman</div>
+<span class="tl-tag theme-accountability">🔍 问责与危机</span>
+</div></div>
+<div class="timeline-item" data-category="governance">
+<div class="year-badge">2004</div>
+<div class="tl-content">
+<div class="tl-title">🏛️ Exploring Strategy and Board Structure in Nonprofit Organizations<br><span class='cn-sub'>探索非营利组织的战略与董事会结构</span></div>
+<div class="tl-author">William A. Brown, Joel O. Iverson</div>
+<span class="tl-tag theme-governance">🏛️ 治理结构</span>
+</div></div>
+<div class="timeline-item" data-category="accountability">
+<div class="year-badge">2004</div>
+<div class="tl-content">
+<div class="tl-title">🔍 A Loss of Credibility: Patterns of Wrongdoing Among Nongovernmental Organizations<br><span class='cn-sub'>公信力的丧失：非政府组织不当行为的模式</span></div>
+<div class="tl-author">Margaret Gibelman, Sheldon R. Gelman</div>
+<span class="tl-tag theme-accountability">🔍 问责与危机</span>
+</div></div>
+<div class="timeline-item" data-category="participation">
+<div class="year-badge">2007</div>
+<div class="tl-content">
+<div class="tl-title">🤝 When Government Becomes the Principal Philanthropist: The Effects of Public Funding on Patterns of Nonprofit Governance<br><span class='cn-sub'>当政府成为主要慈善家：公共资金对非营利组织治理模式的影响</span></div>
+<div class="tl-author">Chao Guo</div>
+<span class="tl-tag theme-participation">🤝 参与机制</span>
+</div></div>
+<div class="timeline-item" data-category="participation">
+<div class="year-badge">2009</div>
+<div class="tl-content">
+<div class="tl-title">🤝 Paternalistic or Participatory Governance? Examining Opportunities for Client Participation in Nonprofit Organizations<br><span class='cn-sub'>家长式还是参与式治理？——考察非营利组织中的客户参与机会</span></div>
+<div class="tl-author">Kelly LeRoux</div>
+<span class="tl-tag theme-participation">🤝 参与机制</span>
+</div></div>
+<div class="timeline-item" data-category="methodology">
+<div class="year-badge">2010</div>
+<div class="tl-content">
+<div class="tl-title">📋 AACODS Checklist<br><span class='cn-sub'>AACODS检查表</span></div>
+<div class="tl-author">Jess Tyndall</div>
+<span class="tl-tag theme-methodology">📋 方法论</span>
+</div></div>
+<div class="timeline-item" data-category="governance">
+<div class="year-badge">2014</div>
+<div class="tl-content">
+<div class="tl-title">🏛️ Effective Governance in Nonprofit Organizations: A Literature Based Multiple Stakeholder Approach<br><span class='cn-sub'>非营利组织的有效治理：基于文献的多重利益相关者方法</span></div>
+<div class="tl-author">Lore Wellens, Marc Jegers</div>
+<span class="tl-tag theme-governance">🏛️ 治理结构</span>
+</div></div>
+<div class="timeline-item" data-category="china">
+<div class="year-badge">2017</div>
+<div class="tl-content">
+<div class="tl-title">🇨🇳 中国社会组织成长条件的再思考——一个总体性理论视角</div>
+<div class="tl-author">黄晓春</div>
+<span class="tl-tag theme-china">🇨🇳 中国情境</span>
+</div></div>
+<div class="timeline-item" data-category="methodology">
+<div class="year-badge">2021</div>
+<div class="tl-content">
+<div class="tl-title">📋 The PRISMA 2020 Statement: An Updated Guideline for Reporting Systematic Reviews<br><span class='cn-sub'>PRISMA 2020声明：系统综述报告指南更新版</span></div>
+<div class="tl-author">Page et al.</div>
+<span class="tl-tag theme-methodology">📋 方法论</span>
+</div></div>
+<div class="timeline-item" data-category="report">
+<div class="year-badge">2023</div>
+<div class="tl-content">
+<div class="tl-title">📊 Leading with Intent: BoardSource Index of Nonprofit Board Practices<br><span class='cn-sub'>以意图引领：BoardSource非营利董事会实践指数</span></div>
+<div class="tl-author">BoardSource</div>
+<span class="tl-tag theme-report">📊 行业报告</span>
+</div></div>
+<div class="timeline-item" data-category="report">
+<div class="year-badge">2024</div>
+<div class="tl-content">
+<div class="tl-title">📊 UK Civil Society Almanac 2024<br><span class='cn-sub'>2024年英国公民社会年鉴</span></div>
+<div class="tl-author">NCVO</div>
+<span class="tl-tag theme-report">📊 行业报告</span>
+</div></div>
+<div class="timeline-item" data-category="report">
+<div class="year-badge">2024</div>
+<div class="tl-content">
+<div class="tl-title">📊 中国基金会发展报告</div>
+<div class="tl-author">中国基金会发展论坛</div>
+<span class="tl-tag theme-report">📊 行业报告</span>
+</div></div>
+</div></div>
+</div>
+<div class="cards-section" id="cards">
+<h2>📃 知识卡片 <span style="font-size:0.6em;color:var(--text-dim);font-weight:400;">点击展开查看每篇文献的完整笔记</span></h2>
+<div class="cards-grid">
+<div class="card theme-participation" data-category="participation">
+<span class="theme-tag theme-participation">🤝 参与机制</span>
+<div class="card-title">公民参与的阶梯<br><span class='en-title'>A Ladder of Citizen Participation</span></div>
+<div class="card-authors">Sherry R. Arnstein</div>
+<div class="card-journal">Journal of the American Institute of Planners</div>
+<div class="card-year">1969</div>
+<div class="card-desc" style="font-size:0.82em;color:var(--text-dim);margin-top:8px;line-height:1.5">经典公民参与阶梯理论，从操纵、治疗到公民控制的八级参与层次</div>
+<div class="card-doi">DOI: <a href="https://doi.org/10.1080/01944366908977225" target="_blank">10.1080/01944366908977225</a></div>
+<div class="card-pdf available">✓ PDF 已获取</div>
+<div class="note-section">
+<button class="note-toggle" onclick="toggleNote('note-0', this)"><span class="arrow">▶</span> 阅读笔记 <span class="note-badge">Summary · Key Findings · Methodology</span></button>
+<div id="note-0" class="note-content">
+<h3>核心论点</h3>
+<p>Arnstein 的核心论点在于：<strong>公民参与就是公民权力（Citizen Participation is Citizen Power）</strong>。她指出，"公民参与"这一术语在实践中常被用作空洞的委婉语或误导性修辞，而真正意义上的公民参与必须是权力的再分配——让那些被排除在政治与经济进程之外的"无权者"（have-nots）能够有意地被纳入未来的决策过程。</p>
+<blockquote>Citizen participation is a categorical term for citizen power. It is the redistribution of power that enables the have-not citizens, presently excluded from the political and economic processes, to be deliberately included in the future. (Arnstein, 1969)</blockquote>
+
+<h3>参与阶梯（八级）</h3>
+<p><strong>第一层：非参与（Nonparticipation）</strong></p>
+<ol>
+<li><strong>操纵（Manipulation）</strong> — 权力持有者通过教育或"治疗"方式操控公众意见</li>
+<li><strong>治疗（Therapy）</strong> — 将公众的不满视为心理问题，通过"治疗"手段转移对实质问题的关注</li>
+</ol>
+<p><strong>第二层：象征性参与（Tokenism）</strong></p>
+<ol start="3">
+<li><strong>告知（Informing）</strong> — 单向信息传递，告知公民权利、责任和选择</li>
+<li><strong>咨询（Consultation）</strong> — 通过听证会、调查等方式征求公民意见，但缺乏被采纳的保证</li>
+<li><strong>安抚（Placation）</strong> — 允许少数"精英"公民进入决策机构，但实际权力有限</li>
+</ol>
+<p><strong>第三层：公民权力（Citizen Power）</strong></p>
+<ol start="6">
+<li><strong>伙伴关系（Partnership）</strong> — 公民与权力持有者通过谈判分享决策权</li>
+<li><strong>授权权力（Delegated Power）</strong> — 公民在特定项目或计划中取得主导决策权</li>
+<li><strong>公民控制（Citizen Control）</strong> — 公民完全掌控项目规划、政策制定和管理</li>
+</ol>
+
+<h3>分析框架的价值</h3>
+<p>该文通过三个联邦社会项目（城市更新、反贫困计划、模范城市计划）的具体案例来说明各阶梯的实践表现。Arnstein 明确指出，该阶梯是"挑衅性"（provocative）的简化模型，现实中的参与形式远比八级阶梯复杂，但它为区分"空洞仪式"（empty ritual）与"实际收益"（real benefit）提供了有力的分析工具。</p>
+
+<h3>历史意义</h3>
+<p>这篇1969年的论文已成为城市规划、公共管理、社区发展等领域最经典的文献之一，其"参与阶梯"模型至今仍被广泛引用和教学，是理解公民参与本质的奠基性框架。</p>
+
+<h3>参考文献</h3>
+<p>Arnstein, S. R. (1969). A ladder of citizen participation. <em>Journal of the American Institute of Planners</em>, 35(4), 216–224.</p>
+</div>
+</div>
+</div>
+<div class="card theme-core" data-category="core">
+<span class="theme-tag theme-core">📐 核心理论</span>
+<div class="card-title">战略管理：利益相关者方法<br><span class='en-title'>Strategic Management: A Stakeholder Approach</span></div>
+<div class="card-authors">R. Edward Freeman</div>
+<div class="card-journal">Cambridge University Press</div>
+<div class="card-year">1984 (2010)</div>
+<div class="card-desc" style="font-size:0.82em;color:var(--text-dim);margin-top:8px;line-height:1.5">利益相关者理论的奠基之作，提出企业需平衡多方利益相关者诉求的管理框架</div>
+<div class="card-doi">DOI: <a href="https://doi.org/10.1017/CBO9781139192675" target="_blank">10.1017/CBO9781139192675</a></div>
+<div class="card-pdf available">✓ PDF 已获取</div>
+<div class="note-section">
+<button class="note-toggle" onclick="toggleNote('note-1', this)"><span class="arrow">▶</span> 阅读笔记 <span class="note-badge">Summary · Key Findings · Methodology</span></button>
+<div id="note-1" class="note-content">
+<h3>核心内容</h3>
+<p>本书是 R. Edward Freeman 于 1984 年首次出版的经典著作，是利益相关者理论（Stakeholder Theory）的奠基之作。2010 年由剑桥大学出版社再版。该书提出了一种全新的商业理解框架：企业可以被理解为一个为利益相关者创造价值的系统，这一世界观将商业与伦理从根本上联系起来。</p>
+
+<h4>第一部分：利益相关者方法</h4>
+<p><strong>第一章：在动荡时代中管理（Managing in Turbulent Times）</strong></p>
+<ul>
+<li>探讨了当代商业环境的变化以及企业对这些变化的应对</li>
+<li>指出当前理解商业环境的框架未能充分考虑那些能够影响企业或被企业影响的广泛群体——即企业的"利益相关者"</li>
+<li>呼吁改变我们思考商业组织的方式</li>
+</ul>
+
+<p><strong>第二章：利益相关者概念与战略管理（The Stakeholder Concept and Strategic Management）</strong></p>
+<ul>
+<li>追溯了"利益相关者"概念在管理思想多个研究领域（企业规划、组织理论、社会责任、系统理论、战略管理）中的历史发展</li>
+<li>论证利益相关者概念可以丰富战略管理的现状</li>
+</ul>
+
+<p><strong>第三章：利益相关者管理：框架与哲学（Stakeholder Management: Framework and Philosophy）</strong></p>
+<ul>
+<li>提出需要在三个层面分析利益相关者问题：理性层面（Rational）、过程层面（Process）和交易层面（Transactional）</li>
+<li>主张建立一个将这三个分析层面"拟合"在一起的框架</li>
+<li>解释了利益相关者映射、理解组织过程以及分析利益相关者互动的技术</li>
+</ul>
+
+<h3>核心贡献</h3>
+<ul>
+<li>首次系统性地提出了利益相关者理论框架</li>
+<li>将商业伦理与战略管理有机结合</li>
+<li>重新定义了企业的目的：为所有利益相关者（而不仅仅是股东）创造价值</li>
+</ul>
+
+<h3>关键概念</h3>
+<ul>
+<li><strong>Stakeholder</strong>: 任何能够影响组织目标实现或受组织目标实现影响的群体或个人</li>
+<li><strong>Three Levels of Analysis</strong>: Rational（识别利益相关者）、Process（理解组织流程）、Transactional（管理互动）</li>
+<li><strong>Stakeholder Management</strong>: 将利益相关者分析整合到企业战略管理中的系统性方法</li>
+</ul>
+
+<h3>参考文献</h3>
+<p>Freeman, R. E. (2010). <em>Strategic Management: A Stakeholder Approach</em>. Cambridge University Press. DOI: 10.1017/CBO9781139192675.</p>
+</div>
+</div>
+</div>
+<div class="card theme-governance" data-category="governance">
+<span class="theme-tag theme-governance">🏛️ 治理结构</span>
+<div class="card-title">非营利董事会：专业知识的熔炉还是地方身份的象征？<br><span class='en-title'>Nonprofit Boards: Crucibles of Expertise or Symbols of Local Identities?</span></div>
+<div class="card-authors">Rikki Abzug</div>
+<div class="card-journal">Nonprofit and Voluntary Sector Quarterly</div>
+<div class="card-year">1996</div>
+<div class="card-desc" style="font-size:0.82em;color:var(--text-dim);margin-top:8px;line-height:1.5">分析非营利董事会是专业知识的熔炉还是地方身份的象征</div>
+<div class="card-doi">DOI: <a href="https://doi.org/10.1177/0899764096253002" target="_blank">10.1177/0899764096253002</a></div>
+<div class="card-pdf available">✓ PDF 已获取</div>
+<div class="note-section">
+<button class="note-toggle" onclick="toggleNote('note-2', this)"><span class="arrow">▶</span> 阅读笔记 <span class="note-badge">Summary · Key Findings · Methodology</span></button>
+<div id="note-2" class="note-content">
+<h3>研究问题</h3>
+<p>本文探讨非营利组织董事会的构成究竟反映了什么——是追求专业知识的理性选择（"专业知识的熔炉"），还是组织寻求合法性的象征性行为（"地方身份的象征"）？</p>
+
+<h3>理论框架</h3>
+<p>作者整合了两种理论视角：</p>
+<ul>
+<li><strong>理性/效率视角</strong>：董事会构成应反映组织对专业知识、资源和战略指导的需求，即董事会由能为组织带来关键资源的专家组成</li>
+<li><strong>制度/合法性视角</strong>：董事会构成更多是为了满足外部环境的合法性期望，即董事会成员的选择反映了社区代表性和社会认同的需要</li>
+</ul>
+
+<h3>核心发现</h3>
+<ul>
+<li>非营利组织董事会的构成是两种力量共同作用的结果：既需要专业知识来提升组织效能，也需要象征性代表来维持合法性</li>
+<li>不同类型的非营利组织（如艺术、教育、健康、社会服务）在董事会构成上呈现显著差异，反映了各自领域的制度环境特征</li>
+<li>地方性组织更倾向于选择具有本地身份象征的理事，而全国性组织更注重专业技能</li>
+<li>董事会构成不仅是技术性决策，更是组织回应制度压力的策略性选择</li>
+</ul>
+
+<h3>方法论</h3>
+<p>采用定量分析方法，基于美国多个城市的非营利组织数据，考察组织类型、环境特征与董事会构成之间的关系。</p>
+
+<h3>参考文献</h3>
+<p>Abzug, R. (1996). Nonprofit Boards: Crucibles of Expertise or Symbols of Local Identities? <em>Nonprofit and Voluntary Sector Quarterly</em>, 25(3), 377–400.</p>
+</div>
+</div>
+</div>
+<div class="card theme-accountability" data-category="accountability">
+<span class="theme-tag theme-accountability">🔍 问责与危机</span>
+<div class="card-title">非常公开的丑闻：非政府组织陷入困境的方式与原因分析<br><span class='en-title'>Very Public Scandals: An Analysis of How and Why Nongovernmental Organizations Get in Trouble</span></div>
+<div class="card-authors">Margaret Gibelman, Sheldon R. Gelman</div>
+<div class="card-journal">VOLUNTAS</div>
+<div class="card-year">2001</div>
+<div class="card-desc" style="font-size:0.82em;color:var(--text-dim);margin-top:8px;line-height:1.5">分析非政府组织陷入丑闻的原因与模式，探讨问责机制</div>
+<div class="card-doi">DOI: <a href="https://doi.org/10.1023/A:1011242911726" target="_blank">10.1023/A:1011242911726</a></div>
+<div class="card-pdf available">✓ PDF 已获取</div>
+<div class="note-section">
+<button class="note-toggle" onclick="toggleNote('note-3', this)"><span class="arrow">▶</span> 阅读笔记 <span class="note-badge">Summary · Key Findings · Methodology</span></button>
+<div id="note-3" class="note-content">
+<h3>Summary</h3>
+<p>本文从跨国视角分析了非政府组织（NGOs）被公开报道的不当行为丑闻。研究数据来源于可通过网站访问的日报、周报、月报以及非营利组织的专门通讯。作者首先聚焦1990年代美国NGO不当行为的先例案件，随后回顾了1998–2000年间全球范围内的重大NGO丑闻案例，重点关注参与健康与人类服务融资或提供的NGO。文章识别了导致这些丑闻发生的根本问题及其对NGO公信力和公众信任的影响，并提出了增强问责制的战略选择。</p>
+
+<h3>Key Findings</h3>
+<ul>
+<li>通过跨国视角系统梳理了1990年代美国及1998–2000年间全球NGO丑闻案例</li>
+<li>识别了导致NGO丑闻发生的治理与管理层面的根本问题，包括监督机制缺失、利益冲突和财务管理不善</li>
+<li>分析了丑闻对NGO公信力和公众信任的侵蚀效应</li>
+<li>提出了增强NGO问责制的战略选择方案，包括加强内部治理、提升透明度和完善外部监督</li>
+</ul>
+
+<h3>Methodology</h3>
+<p>采用内容分析法，对来自日报、周报、月报及非营利组织专门通讯的媒体报道进行分析，以识别NGO治理和管理问题的趋势与模式。</p>
+
+<h3>My Notes</h3>
+<p>该论文对理解NGO领域的信任危机和问责制建设具有重要参考价值。通过跨国案例比较，揭示了NGO治理中普遍存在的结构性问题，对当代非营利组织管理仍有启示意义。</p>
+
+<h3>参考文献</h3>
+<p>Gibelman, M., &amp; Gelman, S. R. (2001). Very public scandals: An analysis of how and why nongovernmental organizations get in trouble. <em>VOLUNTAS</em>, 12(1), 49–66.</p>
+</div>
+</div>
+</div>
+<div class="card theme-governance" data-category="governance">
+<span class="theme-tag theme-governance">🏛️ 治理结构</span>
+<div class="card-title">探索非营利组织的战略与董事会结构<br><span class='en-title'>Exploring Strategy and Board Structure in Nonprofit Organizations</span></div>
+<div class="card-authors">William A. Brown, Joel O. Iverson</div>
+<div class="card-journal">Nonprofit and Voluntary Sector Quarterly</div>
+<div class="card-year">2004</div>
+<div class="card-desc" style="font-size:0.82em;color:var(--text-dim);margin-top:8px;line-height:1.5">探索非营利组织战略与董事会结构之间的关系</div>
+<div class="card-doi">DOI: <a href="https://doi.org/10.1177/0899764004265428" target="_blank">10.1177/0899764004265428</a></div>
+<div class="card-pdf available">✓ PDF 已获取</div>
+<div class="note-section">
+<button class="note-toggle" onclick="toggleNote('note-4', this)"><span class="arrow">▶</span> 阅读笔记 <span class="note-badge">Summary · Key Findings · Methodology</span></button>
+<div id="note-4" class="note-content">
+<h3>研究问题</h3>
+<p>本文探讨非营利组织管理者如何概念化其组织在产品与服务方面的战略定位，以及治理董事会结构如何与该战略定位相匹配。</p>
+
+<h3>理论框架</h3>
+<p>采用 Miles 和 Snow（1978）的战略类型学，将组织分为四种战略类型：</p>
+<ul>
+<li><strong>防御者（Defenders）</strong>：聚焦于明确的细分服务领域，强调稳定性和可靠性</li>
+<li><strong>探索者（Prospectors）</strong>：积极拓展新服务领域，面向更广泛的社区</li>
+<li><strong>分析者（Analyzers）</strong>：介于防御者和探索者之间</li>
+<li><strong>反应者（Reactors）</strong>：缺乏一致的战略模式</li>
+</ul>
+
+<h3>研究方法</h3>
+<ul>
+<li>对 132 家非营利组织进行问卷调查</li>
+<li>对选定的典型案例进行深度访谈</li>
+</ul>
+
+<h3>核心发现</h3>
+<ol>
+<li><strong>董事会结构与战略匹配</strong>：探索者型组织的董事会结构更广泛、更具包容性（更多委员会和利益相关者参与）；防御者型组织的董事会结构更集中、更聚焦</li>
+<li><strong>使命陈述的作用</strong>：使命陈述被用作沟通组织战略定位的重要工具，帮助界定组织对环境机会的认知</li>
+<li><strong>环境认知差异</strong>：防御者强调一致性和可靠性，注重在细分领域内的创新；探索者则更注重平衡使命聚焦与创业主动性</li>
+<li><strong>战略类型的适用性</strong>：Miles 和 Snow 类型学经适当调整后可有效描述非营利组织的战略行为，但需要反映非营利组织特有的多利益相关者、协作关系和混合市场力量等特征</li>
+</ol>
+
+<h3>结论</h3>
+<p>非营利组织的战略取向与治理结构之间存在可识别的匹配模式，管理者应系统性地协调战略与结构以提升组织绩效。</p>
+
+<h3>参考文献</h3>
+<p>Brown, W. A., &amp; Iverson, J. O. (2004). Exploring Strategy and Board Structure in Nonprofit Organizations. <em>Nonprofit and Voluntary Sector Quarterly</em>, 33(3), 377–400.</p>
+</div>
+</div>
+</div>
+<div class="card theme-accountability" data-category="accountability">
+<span class="theme-tag theme-accountability">🔍 问责与危机</span>
+<div class="card-title">公信力的丧失：非政府组织不当行为的模式<br><span class='en-title'>A Loss of Credibility: Patterns of Wrongdoing Among Nongovernmental Organizations</span></div>
+<div class="card-authors">Margaret Gibelman, Sheldon R. Gelman</div>
+<div class="card-journal">VOLUNTAS</div>
+<div class="card-year">2004</div>
+<div class="card-desc" style="font-size:0.82em;color:var(--text-dim);margin-top:8px;line-height:1.5">追踪非政府组织不当行为的模式及其公信力损失</div>
+<div class="card-doi">DOI: <a href="https://doi.org/10.1007/s11266-004-1237-7" target="_blank">10.1007/s11266-004-1237-7</a></div>
+<div class="card-pdf available">✓ PDF 已获取</div>
+<div class="note-section">
+<button class="note-toggle" onclick="toggleNote('note-5', this)"><span class="arrow">▶</span> 阅读笔记 <span class="note-badge">Summary · Key Findings · Methodology</span></button>
+<div id="note-5" class="note-content">
+<h3>Summary</h3>
+<p>本文由 Margaret Gibelman 和 Sheldon R. Gelman 于 2004 年发表于 <em>VOLUNTAS</em>，系统研究了非政府组织（NGO）中的不当行为模式及其对组织公信力的影响。文章通过分析多起 NGO 丑闻案例，识别出 NGO 领域中常见的 wrongdoing 类型，探讨了这些不当行为如何导致公众信任流失，并提出了加强问责与治理的建议。</p>
+
+<h3>Key Findings</h3>
+<ul>
+<li>NGO 领域的不当行为涵盖财务欺诈、管理失当、利益冲突、虚假陈述等多种类型，这些行为严重损害了 NGO 作为公共利益代表的公信力</li>
+<li>不当行为并非孤立事件，而是呈现出可识别的模式（patterns），这些模式与组织的治理结构、监督机制和问责文化密切相关</li>
+<li>公众对 NGO 的信任一旦因丑闻受损，恢复极为困难，可能对整个第三部门产生负面溢出效应</li>
+<li>文章呼吁 NGO 行业加强自律、提升透明度、建立健全的内部控制与外部监督机制</li>
+</ul>
+
+<h3>Methodology</h3>
+<p>本文采用案例分析方法，系统收集和分析了多个国家 NGO 领域公开报道的不当行为案例，通过比较和归纳，识别出不当行为的共性模式及其背后的组织与制度因素。</p>
+
+<h3>My Notes</h3>
+<p>该文是 NGO 问责与公信力研究领域的经典文献，对后续关于非营利组织治理、透明度和道德标准的研究产生了重要影响。文章揭示的 NGO "credibility gap" 问题在今天依然具有现实意义。</p>
+
+<h3>参考文献</h3>
+<p>Gibelman, M., &amp; Gelman, S. R. (2004). A loss of credibility: Patterns of wrongdoing among nongovernmental organizations. <em>VOLUNTAS</em>, 15(4), 355–381.</p>
+</div>
+</div>
+</div>
+<div class="card theme-participation" data-category="participation">
+<span class="theme-tag theme-participation">🤝 参与机制</span>
+<div class="card-title">当政府成为主要慈善家：公共资金对非营利组织治理模式的影响<br><span class='en-title'>When Government Becomes the Principal Philanthropist: The Effects of Public Funding on Patterns of Nonprofit Governance</span></div>
+<div class="card-authors">Chao Guo</div>
+<div class="card-journal">Public Administration Review</div>
+<div class="card-year">2007</div>
+<div class="card-desc" style="font-size:0.82em;color:var(--text-dim);margin-top:8px;line-height:1.5">分析政府成为主要资助者后对非营利组织治理模式的影响</div>
+<div class="card-doi">DOI: <a href="https://doi.org/10.1111/j.1540-6210.2007.00729.x" target="_blank">10.1111/j.1540-6210.2007.00729.x</a></div>
+<div class="card-pdf available">✓ PDF 已获取</div>
+<div class="note-section">
+<button class="note-toggle" onclick="toggleNote('note-6', this)"><span class="arrow">▶</span> 阅读笔记 <span class="note-badge">Summary · Key Findings · Methodology</span></button>
+<div id="note-6" class="note-content">
+<h3>Summary</h3>
+<p>本文研究政府资金对非营利组织治理模式的影响。作者以理事会治理为分析视角，构建了一个包含"理事会相对于执行长的权力强度"和"理事会代表社区利益的程度"两个维度的治理模式类型学。基于对95个城市慈善组织的问卷调查数据，采用多项逻辑回归分析，研究发现：在控制其他环境与制度因素后，对政府资金的依赖显著降低了非营利组织发展出强有力且具有社区代表性的理事会的可能性。</p>
+
+<h3>核心发现</h3>
+<ul>
+<li>政府资金依赖程度越高的非营利组织，其理事会越倾向于发展出"弱理事会、非社区代表"的治理模式</li>
+<li>依赖志愿劳动的组织更可能拥有强有力且代表社区的理事会</li>
+<li>研究结果支持资源依赖理论与制度理论的双重视角：政府资金不仅改变了组织的资源结构，也通过制度压力影响了理事会的构成与功能</li>
+<li>当政府成为主要的资金来源方时，非营利组织的民主功能（通过理事会代表社区利益）可能受到严重制约</li>
+</ul>
+
+<h3>研究方法</h3>
+<ul>
+<li><strong>数据来源</strong>：对95个城市慈善组织的问卷调查，同时包含接受政府资助和未接受政府资助的组织</li>
+<li><strong>分析方法</strong>：多项逻辑回归（multinomial logistic regression），以"强理事会、社区代表型"为参照类别</li>
+<li><strong>治理模式类型学</strong>：将理事会治理分为四类——强-社区代表型、弱-社区代表型、强-非社区代表型、弱-非社区代表型</li>
+</ul>
+
+<h3>我的笔记</h3>
+<p>本文是政府-非营利关系研究领域的重要实证贡献。与以往依赖案例研究或访谈数据的研究不同，Guo通过包含受资助和未受资助组织的调查设计，更严谨地检验了政府资金的因果效应。研究的政策含义深刻：政府购买服务在提升服务效率的同时，可能削弱非营利组织的社区代表性，从而影响其作为民主治理主体的功能。这一发现对当前中国政府购买社会组织服务的实践也具有警示意义。</p>
+
+<h3>参考文献</h3>
+<p>Guo, C. (2007). When Government Becomes the Principal Philanthropist. <em>Public Administration Review</em>, 67(3), 458–473.</p>
+</div>
+</div>
+</div>
+<div class="card theme-participation" data-category="participation">
+<span class="theme-tag theme-participation">🤝 参与机制</span>
+<div class="card-title">家长式还是参与式治理？——考察非营利组织中的客户参与机会<br><span class='en-title'>Paternalistic or Participatory Governance? Examining Opportunities for Client Participation in Nonprofit Organizations</span></div>
+<div class="card-authors">Kelly LeRoux</div>
+<div class="card-journal">Public Administration Review</div>
+<div class="card-year">2009</div>
+<div class="card-desc" style="font-size:0.82em;color:var(--text-dim);margin-top:8px;line-height:1.5">考察非营利组织中客户参与的机会——家长式还是参与式治理？</div>
+<div class="card-doi">DOI: <a href="https://doi.org/10.1111/j.1540-6210.2009.01996.x" target="_blank">10.1111/j.1540-6210.2009.01996.x</a></div>
+<div class="card-pdf available">✓ PDF 已获取</div>
+<div class="note-section">
+<button class="note-toggle" onclick="toggleNote('note-7', this)"><span class="arrow">▶</span> 阅读笔记 <span class="note-badge">Summary · Key Findings · Methodology</span></button>
+<div id="note-7" class="note-content">
+<h3>Summary</h3>
+<p>本文以密歇根州非营利社会服务机构为研究对象，探讨这些组织在多大程度上采纳了参与式治理实践，即通过何种机制为服务对象（客户）提供参与机构决策的机会。研究发现，政府资金在推动非营利组织开展客户参与活动方面发挥了系统性作用，揭示了政府—非营利组织合同关系对民主治理的深远影响。</p>
+
+<h3>Key Findings</h3>
+<ul>
+<li>非营利组织通过四种方式吸纳客户参与：参与机构工作组（work groups）、客户反馈调查（feedback surveys）、咨询委员会（advisory boards/committees）以及客户进入董事会（board of directors）</li>
+<li>政府资金是促进非营利组织开展这些参与活动的最重要系统性因素——获得政府资助越多的机构，越倾向于建立客户参与机制</li>
+<li>非营利组织作为"第三方政府"的重要载体，承担了大部分政府资助的社会福利服务，但其民主参与实践此前缺乏系统研究</li>
+<li>研究挑战了"非营利组织天然更具参与性"的假设，揭示了政府合同关系对组织治理实践的塑造作用</li>
+</ul>
+
+<h3>Methodology</h3>
+<ul>
+<li>研究对象：密歇根州非营利社会服务机构</li>
+<li>数据来源：问卷调查</li>
+<li>分析四种客户参与机制：工作组参与、反馈调查、咨询委员会、董事会席位</li>
+<li>识别影响这些参与实践的组织因素，重点关注政府资金的作用</li>
+</ul>
+
+<h3>My Notes</h3>
+<p>该研究为理解政府—非营利组织契约关系提供了重要视角：政府资助不仅影响服务内容，还塑造了非营利组织的内部治理结构。文章标题"Paternalistic or Participatory Governance?"提出了一个关键问题——非营利组织对服务对象的参与是"家长式"的还是"参与式"的？研究结论倾向于认为，政府资金的介入推动了更具参与性的治理实践。这一发现对当前中国购买社会服务实践亦有借鉴意义。</p>
+
+<h3>参考文献</h3>
+<p>LeRoux, K. (2009). Paternalistic or Participatory Governance? <em>Public Administration Review</em>, 69(3), 504–517.</p>
+</div>
+</div>
+</div>
+<div class="card theme-methodology" data-category="methodology">
+<span class="theme-tag theme-methodology">📋 方法论</span>
+<div class="card-title">AACODS检查表<br><span class='en-title'>AACODS Checklist</span></div>
+<div class="card-authors">Jess Tyndall</div>
+<div class="card-journal">Flinders University</div>
+<div class="card-year">2010</div>
+<div class="card-desc" style="font-size:0.82em;color:var(--text-dim);margin-top:8px;line-height:1.5">灰色文献质量评估清单（权威性、准确性、覆盖性、客观性、日期、重要性）</div>
+<div class="card-pdf available">✓ PDF 已获取</div>
+<div class="note-section">
+<button class="note-toggle" onclick="toggleNote('note-8', this)"><span class="arrow">▶</span> 阅读笔记 <span class="note-badge">Summary · Key Findings · Methodology</span></button>
+<div id="note-8" class="note-content">
+<h3>Summary</h3>
+<p>AACODS 检查表（AACODS checklist）由 Jess Tyndall（弗林德斯大学，2010）开发，旨在对<strong>灰色文献</strong>（grey literature）进行评价和批判性评估。灰色文献指"各级政府、学术界、商业和工业以印刷和电子形式生产，但不受商业出版商控制的文献"，包括学位论文、会议论文、各类报告等。该检查表认为，灰色文献应与正式出版物使用相同的评估工具。</p>
+
+<h3>核心维度</h3>
+<p>AACODS 检查表涵盖以下六个评估维度（首字母缩写即 AACODS）：</p>
+<ol>
+<li><strong>Authority（权威性）</strong> — 评估作者或机构是否具有专业资质、声誉、相关领域经验、是否被他人引用等</li>
+<li><strong>Accuracy（准确性）</strong> — 检查是否有明确的目标/简介、是否遵循既定方法、是否经过同行评审、是否有权威参考文献支持等</li>
+<li><strong>Coverage（覆盖范围）</strong> — 确认文献是否明确说明了其内容参数（如特定人群、出版类型限制等）</li>
+<li><strong>Objectivity（客观性）</strong> — 判断作者立场是否清晰、内容是否平衡、是否存在未声明或未承认的偏见</li>
+<li><strong>Date（日期）</strong> — 确认文献是否有明确的内容相关日期，以判断其时效性和相关性</li>
+<li><strong>Significance（重要性）</strong> — 对文献在研究背景下的价值进行综合判断，包括是否具有意义、是否增加独特贡献、是否强化或反驳现有立场等</li>
+</ol>
+
+<h3>使用方法</h3>
+<p>每个维度下包含一系列具体问题，评估者以 <strong>YES / NO / ?</strong> 三档作答，系统性地判断灰色文献的可信度、相关性和价值。</p>
+
+<h3>参考文献</h3>
+<p>Tyndall, J. (2010). <em>AACODS checklist</em>. Flinders University.</p>
+</div>
+</div>
+</div>
+<div class="card theme-governance" data-category="governance">
+<span class="theme-tag theme-governance">🏛️ 治理结构</span>
+<div class="card-title">非营利组织的有效治理：基于文献的多重利益相关者方法<br><span class='en-title'>Effective Governance in Nonprofit Organizations: A Literature Based Multiple Stakeholder Approach</span></div>
+<div class="card-authors">Lore Wellens, Marc Jegers</div>
+<div class="card-journal">European Management Journal</div>
+<div class="card-year">2014</div>
+<div class="card-desc" style="font-size:0.82em;color:var(--text-dim);margin-top:8px;line-height:1.5">基于文献的多重利益相关者方法分析非营利组织有效治理</div>
+<div class="card-doi">DOI: <a href="https://doi.org/10.1016/j.emj.2013.01.007" target="_blank">10.1016/j.emj.2013.01.007</a></div>
+<div class="card-pdf available">✓ PDF 已获取</div>
+<div class="note-section">
+<button class="note-toggle" onclick="toggleNote('note-9', this)"><span class="arrow">▶</span> 阅读笔记 <span class="note-badge">Summary · Key Findings · Methodology</span></button>
+<div id="note-9" class="note-content">
+<h3>Summary</h3>
+<p>本文是一篇系统性文献综述，旨在将利益相关者理论（Stakeholder Theory）扩展到非营利组织（NPO）的治理有效性研究中。与以往仅关注董事会治理的文献不同，本文创新性地从多个关键利益相关者的视角出发，考察他们各自对"良好治理"的需求与期望，以及这些期望如何影响NPO被感知的有效性。</p>
+
+<h3>Key Findings</h3>
+<ul>
+<li>NPO的有效性不仅取决于内部治理结构，更取决于能否协调不同利益相关者对治理的多元（且往往相互冲突）期望</li>
+<li>研究涵盖七类关键利益相关者：政府（government）、受益人（beneficiaries）、私人捐赠者（private donors）、董事会成员（board members）、管理层（management）、志愿者（volunteers）以及非管理员工（non-managerial staff members）</li>
+<li>文献分析显示，不同利益相关者对治理的需求和目标存在显著冲突；即使在同类利益相关者内部，也常出现相互矛盾的研究发现</li>
+<li>当NPO试图回应某一特定利益相关者的需求时，可能对其他利益相关者的问责性（accountability）产生意料之外的负面影响</li>
+<li>部分利益相关者群体在现有文献中受到的关注严重不足</li>
+</ul>
+
+<h3>Methodology</h3>
+<p>本文采用文献综述方法，系统梳理和整合了关于NPO治理有效性的已有研究成果。研究以利益相关者理论为分析框架，将NPO的治理有效性界定为"被多元利益相关者感知到的有效性"，而非单一维度的客观绩效指标。</p>
+
+<h3>My Notes</h3>
+<p>这篇综述的核心贡献在于揭示了NPO治理的复杂性——治理有效性不是单一标准，而是需要在多元利益相关者之间进行权衡和协调。文中指出的"回应某一群体可能损害对其他群体的问责性"这一矛盾，对NPO管理实践具有重要启示。作者提出的众多未来研究方向也值得后续研究者关注。</p>
+
+<h3>参考文献</h3>
+<p>Wellens, L., &amp; Jegers, M. (2014). Effective governance in nonprofit organizations. <em>European Management Journal</em>, 32(2), 223–243.</p>
+</div>
+</div>
+</div>
+<div class="card theme-china" data-category="china">
+<span class="theme-tag theme-china">🇨🇳 中国情境</span>
+<div class="card-title">中国社会组织成长条件的再思考——一个总体性理论视角</div>
+<div class="card-authors">黄晓春</div>
+<div class="card-journal">社会学研究</div>
+<div class="card-year">2017</div>
+<div class="card-desc" style="font-size:0.82em;color:var(--text-dim);margin-top:8px;line-height:1.5">从总体性理论视角分析中国社会组织的成长条件与制度环境</div>
+<div class="card-doi">DOI: <a href="https://doi.org/10.19934/j.cnki.shxyj.2017.01.006" target="_blank">10.19934/j.cnki.shxyj.2017.01.006</a></div>
+<div class="card-pdf available">✓ PDF 已获取</div>
+<div class="note-section">
+<button class="note-toggle" onclick="toggleNote('note-10', this)"><span class="arrow">▶</span> 阅读笔记 <span class="note-badge">Summary · Key Findings · Methodology</span></button>
+<div id="note-10" class="note-content">
+<h3>Summary</h3>
+<p>本文构建了一个社会组织功能与成长条件的总体性理论视角，指出社会组织发挥治理和服务功能需要依赖特定的制度条件，其成长条件镶嵌于治理转型的总体脉络之中。文章以深度案例分析聚焦于政府购买社会组织服务的制度实践，发现当前政府购买服务存在体制内需求导向、就近圈内购买、悬浮于社区治理网络等特征，导致社会组织赖以发展的重要制度条件缺位。文章进而提出，要高水平发展社会组织，必须超越技术治理的既有逻辑。</p>
+
+<h3>Key Findings</h3>
+<ul>
+<li>经典理论中（托克维尔、涂尔干、贝拉、帕特南等），社会组织作为治理主体需要依赖两个基本条件：<strong>公共性</strong>（联结个体与公共生活）和<strong>社会资本</strong>（连接性社会资本与黏合性社会资本），但这些复杂的社会与制度条件在当前中国的讨论中常被隐去</li>
+<li>当前政府购买社会组织服务呈现三大特征：<ol>
+<li><strong>以体制内需求为导向</strong>——购买服务更多服务于政府职能转移和行政目标，而非社区真实需求</li>
+<li><strong>就近圈内购买</strong>——购买对象集中于体制内孵化的社会组织，缺乏开放性竞争</li>
+<li><strong>悬浮于社区治理网络</strong>——购买服务项目未能嵌入既有社区治理网络，难以产生真正的公共性和社会整合效应</li>
+</ol></li>
+<li>上述特征导致社会组织发展所依赖的公共性生产、社会资本积累等关键制度条件缺位，社会组织陷入"有形式无实质"的发展困境</li>
+<li>文章提出，要高水平发展社会组织，必须超越"技术治理"的既有逻辑，从更深层的制度环境入手</li>
+</ul>
+
+<h3>Methodology</h3>
+<p>采用理论梳理与深度案例分析相结合的方法。首先通过梳理社会学与政治学经典研究（托克维尔、涂尔干、贝拉、帕特南等），从理想类型意义上建立社会组织功能与条件间的关联图谱。随后以政府购买社会组织服务的制度实践为案例，从制度实践层面分析当前中国社会组织发展中前述制度要素的配置现状，揭示"理想条件"与"制度要素配置现状"之间的张力。</p>
+
+<h3>My Notes</h3>
+<p>本文的核心贡献在于将关于社会组织发展条件的讨论从抽象的"应然"层次推进到更为具体、中观的制度分析层次。文章突破了"国家与社会"范式中笼统强调"鼓励发展"的认知框架，指出社会组织健康发展的条件镶嵌于治理转型的多个领域，不能单纯从制度文本出发理解，而要考察相应的政策执行框架。</p>
+
+<h3>参考文献</h3>
+<p>黄晓春 (2017). 中国社会组织成长条件的再思考——一个总体性理论视角. <em>社会学研究</em>, 32(1), 101-124.</p>
+</div>
+</div>
+</div>
+<div class="card theme-methodology" data-category="methodology">
+<span class="theme-tag theme-methodology">📋 方法论</span>
+<div class="card-title">PRISMA 2020声明：系统综述报告指南更新版<br><span class='en-title'>The PRISMA 2020 Statement: An Updated Guideline for Reporting Systematic Reviews</span></div>
+<div class="card-authors">Page et al.</div>
+<div class="card-journal">BMJ</div>
+<div class="card-year">2021</div>
+<div class="card-desc" style="font-size:0.82em;color:var(--text-dim);margin-top:8px;line-height:1.5">系统综述报告指南PRISMA 2020更新版，规范文献综述方法</div>
+<div class="card-doi">DOI: <a href="https://doi.org/10.1136/bmj.n71" target="_blank">10.1136/bmj.n71</a></div>
+<div class="card-pdf available">✓ PDF 已获取</div>
+<div class="note-section">
+<button class="note-toggle" onclick="toggleNote('note-11', this)"><span class="arrow">▶</span> 阅读笔记 <span class="note-badge">Summary · Key Findings · Methodology</span></button>
+<div id="note-11" class="note-content">
+<h3>背景与目的</h3>
+<p>PRISMA 2020 是对 2009 年版 PRISMA 声明的全面更新，旨在为系统评价（systematic reviews）的报告提供最新的透明化指导。系统评价为不同用户（患者、医疗提供者、研究者、政策制定者）生成多种类型的知识，因此透明、完整、准确的报告至关重要。</p>
+
+<h3>主要更新内容</h3>
+<ol>
+<li><strong>27 项检查清单（27-item checklist）</strong>：取代 2009 年版清单，新增和修订了多项报告条目，反映系统评价方法学的最新进展</li>
+<li><strong>扩展版清单（expanded checklist）</strong>：为每个条目提供详细的报告建议和说明</li>
+<li><strong>PRISMA 2020 摘要清单（abstract checklist）</strong>：专门针对系统评价摘要的报告要求</li>
+<li><strong>修订的流程图（revised flow diagrams）</strong>：提供原始评价和更新评价两种流程图模板</li>
+</ol>
+
+<h3>方法学进展</h3>
+<ul>
+<li><strong>文献识别</strong>：自然语言处理和机器学习技术用于识别相关证据</li>
+<li><strong>结果综合</strong>：当 Meta 分析不可行或不适用时，新的综合与呈现方法</li>
+<li><strong>偏倚风险评估</strong>：评估纳入研究结果偏倚风险的新工具</li>
+<li><strong>系统评价质量评价</strong>：评估系统评价实施质量的新工具</li>
+<li><strong>术语更新</strong>：描述特定评价过程的术语已演进</li>
+</ul>
+
+<h3>影响与采纳</h3>
+<ul>
+<li>被 Scopus 引用超过 60,000 次（截至 2020 年 8 月）</li>
+<li>获得近 200 种期刊和系统评价组织的认可</li>
+<li>观察性研究表明使用 PRISMA 2009 与更完整的系统评价报告相关</li>
+</ul>
+
+<h3>参考文献</h3>
+<p>Page, M. J., et al. (2021). The PRISMA 2020 statement: an updated guideline for reporting systematic reviews. <em>BMJ</em>, 372, n71.</p>
+</div>
+</div>
+</div>
+<div class="card theme-report" data-category="report">
+<span class="theme-tag theme-report">📊 行业报告</span>
+<div class="card-title">以意图引领：BoardSource非营利董事会实践指数<br><span class='en-title'>Leading with Intent: BoardSource Index of Nonprofit Board Practices</span></div>
+<div class="card-authors">BoardSource</div>
+<div class="card-journal">BoardSource</div>
+<div class="card-year">2023</div>
+<div class="card-desc" style="font-size:0.82em;color:var(--text-dim);margin-top:8px;line-height:1.5">美国非营利组织董事会实践年度调查报告，提供治理实践基准数据</div>
+<div class="card-pdf available">✓ PDF 已获取</div>
+<div class="note-section">
+<button class="note-toggle" onclick="toggleNote('note-12', this)"><span class="arrow">▶</span> 阅读笔记 <span class="note-badge">Summary · Key Findings · Methodology</span></button>
+<div id="note-12" class="note-content">
+<h3>Summary</h3>
+<p>本报告（Databook）是 BoardSource 发布的非营利组织董事会实践指数，基于 2023 年对美国非营利组织的调查数据，系统呈现了董事会在多样性、招募、绩效、参与、筹款、文化、会议、任期、委员会、入职流程、政策、高管经验与薪酬等方面的实践现状。</p>
+
+<h3>调查样本概况</h3>
+<ul>
+<li><strong>使命领域</strong>：以 Human Services（44.0%）最多，其次为 Public and Societal benefit（13.2%）、Health（12.3%）、Arts（11.0%）、Education（8.3%）等</li>
+<li><strong>地域分布</strong>：西部 28.0%、南部 27.7%、中西部 25.1%、东北部 19.2%</li>
+<li><strong>组织规模（总收入）</strong>：36.4% 的组织收入在 $1M–$5M 之间，17.2% 超过 $10M，13.4% 低于 $250K</li>
+</ul>
+
+<h3>主要章节覆盖主题</h3>
+<ul>
+<li><strong>Board Diversity, Inclusion and Equity Practices</strong>：董事会多元化、包容性与公平实践</li>
+<li><strong>Board Recruitment</strong>：董事会招募流程与策略</li>
+<li><strong>Performance and Impact</strong>：组织绩效与董事会绩效评估</li>
+<li><strong>Self Assessment</strong>：董事会自我评估实践</li>
+<li><strong>Board Engagement</strong>：董事会成员参与度</li>
+<li><strong>Fundraising</strong>：筹款活动与成效</li>
+<li><strong>Advocacy/Public Policy</strong>：倡导与公共政策参与</li>
+<li><strong>Board Culture</strong>：董事会文化氛围</li>
+<li><strong>Board Meetings</strong>：会议频率、时长与效率</li>
+<li><strong>Board Terms and Limits</strong>：任期与连任限制</li>
+<li><strong>Board Committees</strong>：委员会结构与运作</li>
+<li><strong>Board Member Onboarding Process</strong>：新董事入职培训流程</li>
+<li><strong>Board Policies and Practices</strong>：董事会政策与规范</li>
+<li><strong>Executive Experience</strong>：CEO/执行高管经验</li>
+<li><strong>Performance Evaluation</strong>：高管绩效评估</li>
+<li><strong>Executive Compensation</strong>：高管薪酬</li>
+<li><strong>Board Chair Experience</strong>：董事会主席经验（平均每月投入 18.2 小时；54.1% 认为极其有回报）</li>
+</ul>
+
+<h3>Key Findings</h3>
+<ul>
+<li>本报告以数据表格形式呈现，覆盖非营利董事会治理的完整生命周期——从招募、多元化、入职到评估、筹款和高管管理</li>
+<li>调查样本以 Human Services 类组织为主，规模以中等收入（$1M–$5M）组织居多</li>
+<li>董事会主席平均每月投入 18.2 小时，超过半数（54.1%）认为体验"极其有回报"</li>
+</ul>
+
+<h3>参考文献</h3>
+<p>BoardSource (2023). <em>Leading with intent: BoardSource index of nonprofit board practices</em>. Washington, DC.</p>
+</div>
+</div>
+</div>
+<div class="card theme-report" data-category="report">
+<span class="theme-tag theme-report">📊 行业报告</span>
+<div class="card-title">2024年英国公民社会年鉴<br><span class='en-title'>UK Civil Society Almanac 2024</span></div>
+<div class="card-authors">NCVO</div>
+<div class="card-journal">NCVO</div>
+<div class="card-year">2024</div>
+<div class="card-desc" style="font-size:0.82em;color:var(--text-dim);margin-top:8px;line-height:1.5">英国公民社会年鉴，提供英国志愿部门统计数据与发展趋势</div>
+<div class="card-pdf available">✓ PDF 已获取</div>
+<div class="note-section">
+<button class="note-toggle" onclick="toggleNote('note-13', this)"><span class="arrow">▶</span> 阅读笔记 <span class="note-badge">Summary · Key Findings · Methodology</span></button>
+<div id="note-13" class="note-content">
+<h3>Summary</h3>
+<p>The UK Civil Society Almanac 2024, published annually by NCVO (National Council for Voluntary Organisations), is the definitive reference publication for the UK voluntary sector. Widely cited by the media and used extensively by policy makers and sector leaders, it provides comprehensive data on the finances, workforce, and volunteering landscape of UK civil society organisations.</p>
+
+<h3>Core Content Areas</h3>
+<ul>
+<li><strong>Population</strong>: Number of organisations by region, size, UK country, English region, Local Authority, and subsector (ICNPO categories)</li>
+<li><strong>Financial Overview</strong>: Topline financials by size, over time, and economic contribution</li>
+<li><strong>Income</strong>: Breakdown by region, size, sources, types, government tiers, and trends over time</li>
+<li><strong>Spending</strong>: Breakdown by type, subsector, trends over time, and fundraising ratio</li>
+<li><strong>Assets</strong>: By size, fund type, fixed assets, reserves (by subsector and over time)</li>
+<li><strong>Workforce</strong>: Total employees over time, proportion by subsector/size, regional distribution, demographics, and employment patterns</li>
+<li><strong>Volunteering</strong>: Formal and informal volunteering by demographic breakdown</li>
+<li><strong>Civil Society</strong>: Wider scope including number of organisations, income, and spending</li>
+</ul>
+
+<h3>Methodology</h3>
+<p>The Almanac estimates the size and scope of the UK voluntary sector using two core data sources:</p>
+<ol>
+<li><strong>Charity Commission register</strong> — data for all registered charities in England and Wales, providing basic population-level financial information</li>
+<li><strong>Financial accounts sampling</strong> — detailed financial data manually collected from ~2,000 charities, weighted up to the total population for granular income and spending analysis</li>
+</ol>
+<p>Aggregate data for Northern Ireland and Scotland is added for a full UK picture. Additional insights come from the Labour Force Survey (ONS), Employer Skills Survey, and Community Life Survey (DCMS).</p>
+
+<h3>Key Definitions</h3>
+<p>The Almanac uses a "general charities" definition requiring: formality, independence from the state, non-profit distribution, self-governance, meaningful voluntary participation, and public benefit. Income bands are: Large (£1m–£10m), Major (£10m–£100m), and Super-major (&gt;£100m).</p>
+
+<h3>References</h3>
+<p>NCVO (2024). <em>UK Civil Society Almanac 2024</em>. London: NCVO.</p>
+</div>
+</div>
+</div>
+<div class="card theme-report" data-category="report">
+<span class="theme-tag theme-report">📊 行业报告</span>
+<div class="card-title">中国基金会发展报告</div>
+<div class="card-authors">中国基金会发展论坛</div>
+<div class="card-journal">CFF</div>
+<div class="card-year">2024</div>
+<div class="card-desc" style="font-size:0.82em;color:var(--text-dim);margin-top:8px;line-height:1.5">中国基金会行业发展报告，涵盖基金会数量、资产、项目等关键指标</div>
+<div class="card-pdf available">✓ PDF 已获取</div>
+<div class="note-section">
+<button class="note-toggle" onclick="toggleNote('note-14', this)"><span class="arrow">▶</span> 阅读笔记 <span class="note-badge">Summary · Key Findings · Methodology</span></button>
+<div id="note-14" class="note-content">
+<h3>年度主题</h3>
+<p>本报告以 <strong>"信任与高质量的慈善"</strong> 为主题，围绕中国基金会行业发展的热点、难点、痛点，为从业者和关心公益慈善事业的人士提供内容平台。</p>
+
+<h3>政策法规重大进展</h3>
+<ul>
+<li><strong>《慈善法》修订</strong>：2024年9月5日，修改后的《慈善法》正式施行，为中国特色慈善事业发展提供法律保障</li>
+<li><strong>《基金会管理条例》修订</strong>：国务院和民政部分别将修订列入2024年度立法计划；12月24日，民政部发布《基金会管理条例（修订草案征求意见稿）》（共9章94条）</li>
+<li><strong>《社会组织名称管理办法》</strong>：1月8日公布，5月1日起施行，首次对社会组织名称进行统一规定</li>
+<li><strong>《民间非营利组织会计制度》</strong>：12月20日财政部印发修订版，将于2026年1月1日起施行</li>
+</ul>
+
+<h3>行业关键数据（截至2023年底）</h3>
+<ul>
+<li>全国共有社会组织 <strong>88.2万个</strong>（比上年下降1.1%）</li>
+<li>全国共有基金会 <strong>9617家</strong>（比上年增长3.2%）<ul>
+<li>民政部登记：213家</li>
+<li>省级民政部门登记：6333家</li>
+<li>市级民政部门登记：2028家</li>
+<li>县级民政部门登记：1043家</li>
+</ul></li>
+<li>全国社会组织捐赠收入 <strong>1363.8亿元</strong>（比上年增长25.7%）</li>
+</ul>
+
+<h3>重要事件</h3>
+<ul>
+<li><strong>二十届三中全会</strong>：审议通过《决定》，强调"支持发展公益慈善事业"，"健全社会组织管理制度"</li>
+<li><strong>儿慈会事件</strong>：6月，民政部通报中华少年儿童慈善救助基金会存在内部管理不规范、9958项目违规等问题</li>
+<li><strong>数字公益创新</strong>：腾讯公益慈善基金会推出"数字关爱券"和"数字关爱平台"，探索"科技+救灾"新模式</li>
+<li><strong>救灾政社协同</strong>：应急管理部建立应急物资政社协同保障机制，协调基金会等社会力量参与灾害应对</li>
+</ul>
+
+<h3>年会概况</h3>
+<p>2024年11月23日至24日，中国社会组织促进会与北京基业长青社会组织服务中心共同主办中国基金会发展论坛2024年会，主题为"信任与高质量的慈善"，由阿里巴巴公益基金会担任轮值主席。</p>
+
+<h3>参考文献</h3>
+<p>中国基金会发展论坛 (2024). <em>中国基金会发展报告</em>.</p>
+</div>
+</div>
+</div>
+</div></div>
+<div class="review-section" id="review">
+<h2>📝 文献综述与初步分析</h2>
+<p style="color:var(--text-dim);font-size:0.85em;margin-bottom:20px;">以下内容来自"检索过程记录"文档中的<strong>初步综述笔记.md</strong>，是AI对这15篇文献的综合分析与理论构建，可作为系统文献综述的初稿。</p>
+<div class="review-card">
+<h3>💡 核心概念界定</h3>
+<h4>1.1 利益相关者参与 (Stakeholder Engagement)</h4>
+<ul>
+<li><strong>定义来源</strong>：Freeman (1984) 利益相关者理论</li>
+<li><strong>操作化维度</strong>：<ul>
+<li><strong>Who</strong>：利益相关者识别与分类</li>
+<li><strong>In What</strong>：参与治理的具体环节</li>
+<li><strong>How Deep</strong>：参与深度（Arnstein's Ladder 的变体）</li>
+</ul></li>
+</ul>
+<h4>1.2 参与深度阶梯 (Adapted from Arnstein 1969)</h4>
+<table class="review-table"><tr><th>层级</th><th>类型</th><th>描述</th></tr>
+<tr><td>1</td><td>信息告知 (Informing)</td><td>单向信息传递</td></tr>
+<tr><td>2</td><td>咨询 (Consultation)</td><td>征求意见但不承诺采纳</td></tr>
+<tr><td>3</td><td>协作 (Collaboration)</td><td>共同决策</td></tr>
+<tr><td>4</td><td>赋权 (Empowerment)</td><td>利益相关者主导决策</td></tr>
+</table>
+<h4>1.3 治理质量维度</h4>
+<ul>
+<li>透明度 (Transparency)</li>
+<li>问责性 (Accountability)</li>
+<li>决策有效性 (Decision-making Effectiveness)</li>
+<li>合法性 (Legitimacy)</li>
+</ul>
+<h3>🏛️ 初步理论框架</h3>
+<h4>核心命题</h4>
+<div class="proposition"><strong>命题1</strong>：利益相关者参与的广度（who）与治理合法性正相关，但与决策效率可能存在张力。</div>
+<div class="proposition"><strong>命题2</strong>：利益相关者参与的深度（how deep）与治理问责性正相关，但受组织能力约束。</div>
+<div class="proposition"><strong>命题3</strong>：在中国语境下，业务主管单位和党组织的参与具有制度强制性，其治理效应不同于自愿性参与。</div>
+<div class="proposition"><strong>命题4</strong>：捐赠人参与对基金会治理的影响取决于捐赠类型（限定性 vs. 非限定性捐赠）。</div>
+<h4>待验证假设</h4>
+<ul>
+<li><strong>H1</strong>: 理事会中利益相关者代表比例越高，组织透明度越高</li>
+<li><strong>H2</strong>: 受益人参与决策的程度与项目有效性正相关</li>
+<li><strong>H3</strong>: 党组织嵌入程度与合规性正相关，但与创新性可能存在张力</li>
+<li><strong>H4</strong>: 业务主管单位的监管强度与基金会自主性呈倒U型关系</li>
+</ul>
+<h3>🔍 研究空白识别</h3>
+<h4>现有研究的主要关注点</h4>
+<ul>
+<li>理事会结构与治理绩效的关系（大量实证研究）</li>
+<li>利益相关者理论的规范性论证（理论文献）</li>
+<li>非营利组织问责机制（制度分析）</li>
+</ul>
+<h4>研究空白</h4>
+<ul>
+<li>中国语境下"业务主管单位"和"党组织"作为特殊利益相关者的实证研究较少</li>
+<li>利益相关者参与深度（而非仅仅是存在与否）对治理质量的差异化影响</li>
+<li>不同类型基金会（公募/非公募/家族基金会）中利益相关者参与模式的比较</li>
+<li>治理失败案例中利益相关者缺位的机制分析</li>
+</ul>
+</div></div>
+<div class="review-section" id="search">
+<h2>🔍 文献检索过程</h2>
+<p style="color:var(--text-dim);font-size:0.85em;margin-bottom:20px;">以下内容来自"检索过程记录"文档中的<strong>文献检索协议.md</strong>，完整记录了本系统文献综述的检索策略、方法流程与纳入/排除标准。</p>
+<div class="review-card">
+<h3>📊 研究概述与检索策略</h3>
+<h4>核心研究问题</h4>
+<table class="review-table"><tr><th>问题维度</th><th>具体问题</th></tr>
+<tr><td><strong>Who</strong></td><td>哪些利益相关者参与基金会治理？</td></tr>
+<tr><td><strong>In What</strong></td><td>利益相关者参与治理的哪些环节/事务？</td></tr>
+<tr><td><strong>How Deep</strong></td><td>利益相关者参与到什么程度（信息告知→咨询→协作→赋权）？</td></tr>
+<tr><td><strong>Impact</strong></td><td>利益相关者参与对治理质量（透明度、问责性、决策有效性、合法性）有何影响？</td></tr>
+</table>
+<h4>检索原则</h4>
+<ol>
+<li><strong>系统性 (Systematic)</strong>：遵循 PRISMA 2020 框架，确保检索过程透明、可重复</li>
+<li><strong>迭代扩展 (Iterative Expansion)</strong>：初次检索后，从高相关性文献中提取新关键词，再次检索，直至理论饱和</li>
+<li><strong>多源互补 (Multi-source Triangulation)</strong>：学术数据库 + 关键期刊 + 灰色文献 + 案例库，交叉验证</li>
+<li><strong>可重复性 (Reproducibility)</strong>：每次检索均记录完整字段，确保半年后可复现</li>
+</ol>
+<h4>检索时间范围</h4>
+<table class="review-table"><tr><th>文献类型</th><th>时间范围</th><th>说明</th></tr>
+<tr><td>实证研究</td><td>2016–2026（近10年）</td><td>确保时效性</td></tr>
+<tr><td>理论/方法论经典</td><td>不限时间</td><td>如 Freeman 1984, Arnstein 1969</td></tr>
+<tr><td>行业报告/灰色文献</td><td>2018–2026</td><td>确保数据最新</td></tr>
+<tr><td>经典案例/历史文献</td><td>不限时间</td><td>如治理失败经典案例</td></tr>
+</table>
+<h3>🎯 布尔检索式</h3>
+<h4>英文检索式（Web of Science / Scopus）</h4>
+<pre class="search-query">TS = (
+  ("stakeholder engagement" OR "stakeholder participation" OR "beneficiary voice" OR "donor engagement" OR "participatory governance" OR "community participation") 
+  AND 
+  ("foundation" OR "nonprofit" OR "non-profit" OR "philanthropic" OR "charitable organization" OR "third sector")
+  AND 
+  ("governance" OR "board" OR "accountability" OR "transparency" OR "decision-making")
+)</pre>
+<h4>中文检索式（CNKI / 万方）</h4>
+<pre class="search-query">SU = (
+  ("利益相关者" OR "利益相关方" OR "受益人" OR "捐赠人" OR "志愿者" OR "社区")
+  AND
+  ("基金会" OR "非营利组织" OR "慈善组织" OR "社会组织")
+  AND
+  ("治理" OR "理事会" OR "参与" OR "问责" OR "透明度")
+)</pre>
+<h4>检索数据库</h4>
+<table class="review-table"><tr><th>数据库</th><th>主要用途</th></tr>
+<tr><td>Web of Science Core Collection</td><td>同行评议文献的引文追踪（优先 SSCI）</td></tr>
+<tr><td>Scopus</td><td>跨学科覆盖，与 WoS 互补</td></tr>
+<tr><td>Google Scholar</td><td>灰色文献、工作论文、政策报告</td></tr>
+<tr><td>JSTOR</td><td>历史性经典文献（1980s–2000s）</td></tr>
+<tr><td>EBSCO Business / Nonprofit Source</td><td>实务期刊（NVSQ、NML 等）</td></tr>
+<tr><td>CNKI 中国知网</td><td>中文学术文献（核心期刊+CSSCI）</td></tr>
+<tr><td>万方数据</td><td>学位论文、会议论文</td></tr>
+<tr><td>SSRN</td><td>工作论文（治理与法律研究）</td></tr>
+</table>
+<h3>📋 纳入标准</h3>
+<table class="review-table"><tr><th>维度</th><th>标准</th><th>说明</th></tr>
+<tr><td><strong>时间</strong></td><td>实证研究近10年（2016–2026）；理论/方法论经典不限时间</td><td>确保时效性与经典性兼顾</td></tr>
+<tr><td><strong>语言</strong></td><td>中文、英文</td><td>覆盖主要学术语言</td></tr>
+<tr><td><strong>组织类型</strong></td><td>基金会、运作型服务机构、非营利组织（涉及治理时）</td><td>聚焦研究主体</td></tr>
+<tr><td><strong>文献类型</strong></td><td>同行评议文献、行业报告、监管文件、深度案例报道、学位论文</td><td>多源互补</td></tr>
+<tr><td><strong>主题相关性</strong></td><td>直接涉及利益相关者参与和/或治理质量</td><td>核心议题匹配</td></tr>
+</table>
+<h3>❌ 排除标准</h3>
+<table class="review-table"><tr><th>维度</th><th>标准</th><th>理由</th></tr>
+<tr><td><strong>商业管理</strong></td><td>纯商业管理文献（除非与非营利治理直接相关）</td><td>偏离研究焦点</td></tr>
+<tr><td><strong>倡导性宣传</strong></td><td>倡导性宣传材料中无实证或分析价值的</td><td>缺乏学术/分析价值</td></tr>
+<tr><td><strong>旧版报告</strong></td><td>已被更新版本取代的旧报告</td><td>确保信息时效性</td></tr>
+<tr><td><strong>不相关组织</strong></td><td>政府机构、企业（非CSR语境下）</td><td>组织类型不匹配</td></tr>
+<tr><td><strong>语言</strong></td><td>中英文以外的其他语言文献</td><td>语言限制</td></tr>
+</table>
+<h3>📅 检索执行计划（六阶段）</h3>
+<div class="phase-list">
+<div class="phase-item"><span class="phase-num">1</span><div><strong>学术数据库检索</strong> — WoS → Scopus → CNKI → 万方 → JSTOR → EBSCO → SSRN</div></div>
+<div class="phase-item"><span class="phase-num">2</span><div><strong>引文追踪</strong> — 前向与后向引文追踪 (snowballing)</div></div>
+<div class="phase-item"><span class="phase-num">3</span><div><strong>灰色文献检索</strong> — 监管数据库 → 行业报告 → 案例库 → 调查性新闻 → 学位论文</div></div>
+<div class="phase-item"><span class="phase-num">4</span><div><strong>迭代扩展</strong> — 提取新关键词，重复检索直至理论饱和</div></div>
+<div class="phase-item"><span class="phase-num">5</span><div><strong>筛选与质量评估</strong> — 标题→摘要→全文筛选 + AACODS 质量评估</div></div>
+<div class="phase-item"><span class="phase-num">6</span><div><strong>数据提取与综合</strong> — 文献矩阵 → 主题综合 → 撰写综述</div></div>
+</div>
+<h3>📄 灰色文献质量评估：AACODS Checklist</h3>
+<p>基于 Tyndall (2010) 开发的 AACODS 检查表，对每篇纳入的灰色文献进行六个维度的评估：<strong>Authority（权威性）、Accuracy（准确性）、Coverage（覆盖范围）、Objectivity（客观性）、Date（日期与时效）、Significance（重要性）</strong>。每个维度评分 1-5，总分 ≥ 18 建议纳入，12-17 视情况纳入，&lt; 12 建议排除。</p>
+</div></div>
+<div class="footer">
+生成时间: 2024 | 文献来源: Zotero | 笔记来源: LLM-for-Zotero | 知识卡片可视化
+</div>
+<script>
+function toggleNote(id, btn){
+var note=document.getElementById(id);
+if(note.classList.contains("open")){
+note.classList.remove("open");btn.classList.remove("open")
+}else{
+note.classList.add("open");btn.classList.add("open")
+}
+}
+function toggleTimeline(){
+var wrap=document.getElementById("timelineWrap");
+var btn=document.querySelector(".collapse-btn");
+if(wrap.classList.contains("collapsed")){
+wrap.classList.remove("collapsed");btn.innerHTML="📌 折叠时间线"
+}else{
+wrap.classList.add("collapsed");btn.innerHTML="📌 展开时间线"
+}
+}
+document.querySelectorAll(".filter-btn").forEach(function(btn){
+btn.addEventListener("click",function(){
+document.querySelectorAll(".filter-btn").forEach(function(b){b.classList.remove("active")})
+this.classList.add("active")
+var f=this.getAttribute("data-filter")
+document.querySelectorAll(".card").forEach(function(c){
+if(f==="all"||c.getAttribute("data-category")===f){c.style.display="block"}else{c.style.display="none"}
+})
+document.querySelectorAll(".timeline-item").forEach(function(c){
+if(f==="all"||c.getAttribute("data-category")===f){c.style.display="flex"}else{c.style.display="none"}
+})
+})
+})
+document.querySelectorAll(".section-btn").forEach(function(btn){
+btn.addEventListener("click",function(){
+document.querySelectorAll(".section-btn").forEach(function(b){b.classList.remove("active")})
+this.classList.add("active")
+var target=this.getAttribute("data-scrollto")
+if(target==="all"){
+window.scrollTo({top:0,behavior:"smooth"})
+}else{
+var el=document.getElementById(target)
+if(el) el.scrollIntoView({behavior:"smooth",block:"start"})
+}
+})
+})
+var topBtn=document.createElement("button")
+topBtn.className="scroll-top"
+topBtn.innerHTML="↑"
+topBtn.onclick=function(){window.scrollTo({top:0,behavior:"smooth"})}
+document.body.appendChild(topBtn)
+window.addEventListener("scroll",function(){
+if(window.scrollY>500){topBtn.classList.add("show")}else{topBtn.classList.remove("show")}
+})
+var sections=["themeMap","timeline","cards","review","search"]
+window.addEventListener("scroll",function(){
+var scrollY=window.scrollY+120
+var activeSet=false
+for(var i=0;i<sections.length;i++){
+var el=document.getElementById(sections[i])
+if(el&&el.offsetTop<=scrollY){
+document.querySelectorAll(".section-btn").forEach(function(b){b.classList.remove("active")})
+var btn=document.querySelector(".section-btn[data-scrollto='"+sections[i]+"']")
+if(btn) btn.classList.add("active")
+activeSet=true
+}
+}
+if(!activeSet&&scrollY<200){
+document.querySelectorAll(".section-btn").forEach(function(b){b.classList.remove("active")})
+var first=document.querySelector(".section-btn[data-scrollto='all']")
+if(first) first.classList.add("active")
+}
+})
+</script>
+</body></html>
